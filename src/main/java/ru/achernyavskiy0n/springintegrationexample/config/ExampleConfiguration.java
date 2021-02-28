@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Import;
 
 /**
  * 26.02.2021
- *
+ * Main configuration
  * @author a.chernyavskiy0n
  */
 @Configuration

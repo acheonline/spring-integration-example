@@ -20,6 +20,7 @@ import java.io.File;
 
 /**
  * 26.02.2021
+ * Spring Integration realization configuration
  *
  * @author a.chernyavskiy0n
  */
@@ -32,7 +33,7 @@ public class IntegrationFlowConfiguration {
     public static final String FILE_PATTERN = "*.mpeg";
 
     /**
-     * p2s канал для передачи сообщения, реализуем абстракцию bridge для переброса сообщения из одного канала в другой
+     * p2s channel for messaging with bridge pattern abstraction realization for message redirection from @pubSubFileChannel
      */
     @Bean
     @BridgeFrom(value = "pubSubFileChannel")
@@ -41,9 +42,7 @@ public class IntegrationFlowConfiguration {
     }
 
     /**
-     * Абстракция канала, по которому будут передаваться сообщения.
-     * В данном случае, он publish-suscribe типа, то есть one-to-many коммуникация.
-     * @return pub-sub channel
+     * p2s channel for main messaging
      */
     @Bean
     public MessageChannel pubSubFileChannel() {
@@ -51,8 +50,7 @@ public class IntegrationFlowConfiguration {
     }
 
     /**
-     * Адаптер для отправки сообщений в канал.
-     * Внутри себя содержит бизнес-логику, конвертирой формирует сообщение (из файла в данном случае), которое уже уйдет в канал.
+     * Inbound adapter converts files from input directory to message via MessageSource and publish it to @pubSubFileChannel
      */
     @Bean
     @InboundChannelAdapter(value = "pubSubFileChannel", poller = @Poller(fixedDelay = "1000"))
@@ -64,7 +62,7 @@ public class IntegrationFlowConfiguration {
     }
 
     /**
-     * Сервис, который вычитывает из канала и завершает бизнес-логику записью на диск.
+     * Service of writing file from received message to output dir
      */
     @Bean
     @ServiceActivator(inputChannel= "fileChannel1")
