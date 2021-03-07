@@ -20,7 +20,7 @@ import java.io.File;
 
 /**
  * 26.02.2021
- * Spring Integration realization configuration
+ * Spring Integration realization configuration - just example of most simple integration solution
  *
  * @author a.chernyavskiy0n
  */
