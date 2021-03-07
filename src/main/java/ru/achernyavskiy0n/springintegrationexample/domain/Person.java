@@ -1,23 +1,34 @@
 package ru.achernyavskiy0n.springintegrationexample.domain;
 
-import lombok.Getter;
-import lombok.Setter;
-
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
 
 /**
  * 07.03.2021
  *
  * @author a.chernyavskiy0n
  */
-//@Builder
-@Getter
-@Setter
 @XmlRootElement(name = "person")
-@XmlType(propOrder = {"firstName", "lastName"})
 public class Person {
 
     String firstName;
     String lastName;
+
+    @XmlElement(name = "firstName")
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    @XmlElement(name = "lastName")
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.integration.config.EnableIntegration;
 import org.springframework.integration.dsl.IntegrationFlow;
 
@@ -12,14 +13,14 @@ import org.springframework.integration.dsl.IntegrationFlow;
  *
  * Example of custom flow configuration
  * Firstly - flow is reading XML file from source
- * Secondly - flow is converting type of payload to JSON
- * Thirdly - flow is writing separately to 2 different sources
+ * Secondly - flow is writing separately to 2 different sources
  *
  * @author a.chernyavskiy0n
  */
 
 @Configuration
 @EnableIntegration
+@Import(value = {ReadFromXmlFlowConfiguration.class, WriteJsonFlowConfiguration.class})
 public class MainFlowConfiguration {
 
     @Autowired
@@ -35,8 +36,6 @@ public class MainFlowConfiguration {
                 .log("Start main flow")
                 .gateway(xmlFlow.readXmlFromDiskFlow)
                 .log("finish of writing XML on disk and switch to converting to JSON flow")
-                .transform(jsonFlow.stringToJsonTransformer::convert)
-                .log("end of converting to JSON and start writing JSON on disk")
                 .gateway(jsonFlow.writeJsonFlow)
                 .log("finish flow")
                 .bridge();

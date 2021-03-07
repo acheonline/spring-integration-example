@@ -23,8 +23,8 @@ import java.io.File;
  * @author a.chernyavskiy0n
  */
 
-@Configuration
 @EnableIntegration
+@Component
 public class ReadFromXmlFlowConfiguration {
 
     public static final String INPUT_DIR = "the_source_dir";
@@ -56,6 +56,6 @@ public class ReadFromXmlFlowConfiguration {
                 .log("start flow of reading from source")
                 .transform(String.class, xmlToStringTransformer::convert)
                 .log("end converting and finish converting flow")
-                .nullChannel();
+                .get(); //todo - need bridge to mainFlow, instead of nullChannel
     }
 }
