@@ -18,6 +18,7 @@ public class StringToJsonTransformer {
 
     public Person convert(ServiceMessage<FlowType> data) {
         return null;
+        //todo - make converter
 //        Person.builder()
 //                .firstName(data.getPayload().getFirstName())
 //                .lastName(data.getPayload().getLastName())

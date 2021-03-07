@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.integration.config.EnableIntegration;
 import org.springframework.integration.dsl.IntegrationFlow;
 
@@ -20,6 +21,7 @@ import org.springframework.integration.dsl.IntegrationFlow;
 
 @Configuration
 @EnableIntegration
+@Import(value = {ReadFromXmlFlowConfiguration.class, WriteJsonFlowConfiguration.class})
 public class MainFlowConfiguration {
 
     @Autowired

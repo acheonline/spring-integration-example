@@ -25,6 +25,7 @@ import java.io.File;
 
 @Configuration
 @EnableIntegration
+@Component
 public class ReadFromXmlFlowConfiguration {
 
     public static final String INPUT_DIR = "the_source_dir";

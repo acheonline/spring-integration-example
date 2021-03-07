@@ -4,8 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.integration.annotation.InboundChannelAdapter;
-import org.springframework.integration.annotation.Poller;
+import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.config.EnableIntegration;
 import org.springframework.integration.dsl.IntegrationFlow;
@@ -13,6 +12,7 @@ import org.springframework.integration.file.FileWritingMessageHandler;
 import org.springframework.integration.file.support.FileExistsMode;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
+import org.springframework.stereotype.Component;
 import ru.achernyavskiy0n.springintegrationexample.transfromer.StringToJsonTransformer;
 
 import java.io.File;
@@ -22,6 +22,7 @@ import java.io.File;
  *
  * @author a.chernyavskiy0n
  */
+@Component
 @Configuration
 @EnableIntegration
 public class WriteJsonFlowConfiguration {
@@ -53,7 +54,7 @@ public class WriteJsonFlowConfiguration {
 
     @Bean
     @Qualifier("firstOutPutChannel")
-    @InboundChannelAdapter(value = "outPutChannel", poller = @Poller(fixedDelay = "10000"))
+    @ServiceActivator(inputChannel = "outPutChannel")
     public MessageHandler firstFileOutPutMessageHandler() {
         FileWritingMessageHandler handler = new FileWritingMessageHandler(new File(OUTPUT_DIR_1));
         handler.setFileExistsMode(FileExistsMode.REPLACE);
@@ -63,7 +64,7 @@ public class WriteJsonFlowConfiguration {
 
     @Bean
     @Qualifier("secondOutPutChannel")
-    @InboundChannelAdapter(value = "outPutChannel", poller = @Poller(fixedDelay = "10000"))
+    @ServiceActivator(inputChannel = "outPutChannel")
     public MessageHandler secondFileOutPutMessageHandler() {
         FileWritingMessageHandler handler = new FileWritingMessageHandler(new File(OUTPUT_DIR_2));
         handler.setFileExistsMode(FileExistsMode.REPLACE);
