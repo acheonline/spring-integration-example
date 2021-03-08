@@ -13,6 +13,7 @@ import org.springframework.integration.file.filters.SimplePatternFileListFilter;
 import org.springframework.integration.file.support.FileExistsMode;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
+import ru.achernyavskiy0n.springintegrationexample.utils.annotations.ConfigurationIntegrationLayer;
 
 import java.io.File;
 
@@ -23,8 +24,7 @@ import java.io.File;
  * @author a.chernyavskiy0n
  */
 // uncomment to execute
-//@Configuration
-//@EnableIntegration
+//@ConfigurationIntegrationLayer
 public class IntegrationFlowConfiguration {
 
     public static final String INPUT_DIR = "the_source_dir";

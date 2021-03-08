@@ -4,16 +4,14 @@ import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
-import org.springframework.integration.config.EnableIntegration;
 import org.springframework.integration.core.MessageSource;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.Pollers;
 import org.springframework.integration.file.FileReadingMessageSource;
 import org.springframework.integration.file.filters.SimplePatternFileListFilter;
-import org.springframework.stereotype.Component;
 import ru.achernyavskiy0n.springintegrationexample.transfromer.XmlToPojoTransformer;
-import ru.achernyavskiy0n.springintegrationexample.transfromer.XmlToStringTransformer;
+import ru.achernyavskiy0n.springintegrationexample.utils.annotations.ConfigurationIntegrationLayer;
 
 import java.io.File;
 
@@ -23,8 +21,7 @@ import java.io.File;
  * @author a.chernyavskiy0n
  */
 
-@EnableIntegration
-@Component
+@ConfigurationIntegrationLayer
 public class ReadFromXmlFlowConfiguration {
 
     public static final String INPUT_DIR = "the_source_dir";

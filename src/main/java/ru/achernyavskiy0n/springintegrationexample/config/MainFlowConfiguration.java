@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.integration.config.EnableIntegration;
 import org.springframework.integration.dsl.IntegrationFlow;
+import ru.achernyavskiy0n.springintegrationexample.utils.annotations.ConfigurationIntegrationLayer;
 
 /**
  * 07.03.2021
@@ -18,8 +19,7 @@ import org.springframework.integration.dsl.IntegrationFlow;
  * @author a.chernyavskiy0n
  */
 
-@Configuration
-@EnableIntegration
+@ConfigurationIntegrationLayer
 @Import(value = {ReadFromXmlFlowConfiguration.class, WriteJsonFlowConfiguration.class})
 public class MainFlowConfiguration {
 
