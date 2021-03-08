@@ -57,7 +57,6 @@ public class WriteJsonFlowConfiguration {
     @Autowired @Qualifier("outPutChannel") MessageChannel outPutChannel;
 
     @Bean
-    @Qualifier("firstOutPutChannel")
     @ServiceActivator(inputChannel = "outPutChannel")
     public MessageHandler firstFileOutPutMessageHandler() {
         FileWritingMessageHandler handler = new FileWritingMessageHandler(new File(OUTPUT_DIR_1));
@@ -67,7 +66,6 @@ public class WriteJsonFlowConfiguration {
     }
 
     @Bean
-    @Qualifier("secondOutPutChannel")
     @ServiceActivator(inputChannel = "outPutChannel")
     public MessageHandler secondFileOutPutMessageHandler() {
         FileWritingMessageHandler handler = new FileWritingMessageHandler(new File(OUTPUT_DIR_2));

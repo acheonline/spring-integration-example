@@ -30,7 +30,6 @@ public class MainFlowConfiguration {
     WriteJsonFlowConfiguration jsonFlow;
 
     @Bean
-    @Qualifier("mainFlow")
     IntegrationFlow mainFlow() {
         return f -> f
                 .log("Start main flow")
