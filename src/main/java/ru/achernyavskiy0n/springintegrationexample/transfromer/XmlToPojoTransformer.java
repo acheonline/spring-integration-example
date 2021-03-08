@@ -16,7 +16,7 @@ import java.io.File;
  */
 @Slf4j
 @Component
-public class XmlToStringTransformer {
+public class XmlToPojoTransformer {
 
     public ServiceMessage<Person> convert(String data) throws RuntimeException {
         try {
