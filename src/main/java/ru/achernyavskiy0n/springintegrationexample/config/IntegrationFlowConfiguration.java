@@ -24,7 +24,7 @@ import java.io.File;
  * @author a.chernyavskiy0n
  */
 // uncomment to execute
-//@ConfigurationIntegrationLayer
+@ConfigurationIntegrationLayer
 public class IntegrationFlowConfiguration {
 
     public static final String INPUT_DIR = "the_source_dir";

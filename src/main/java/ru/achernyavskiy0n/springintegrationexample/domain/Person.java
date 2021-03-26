@@ -1,5 +1,7 @@
 package ru.achernyavskiy0n.springintegrationexample.domain;
 
+import lombok.*;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -9,26 +11,15 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author a.chernyavskiy0n
  */
 @XmlRootElement(name = "person")
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Person {
 
-    String firstName;
-    String lastName;
-
     @XmlElement(name = "firstName")
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
+    String firstName;
     @XmlElement(name = "lastName")
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+    String lastName;
 }
