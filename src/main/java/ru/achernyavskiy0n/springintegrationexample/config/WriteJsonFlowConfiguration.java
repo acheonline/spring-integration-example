@@ -1,11 +1,13 @@
 package ru.achernyavskiy0n.springintegrationexample.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.dsl.IntegrationFlow;
+import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.file.FileWritingMessageHandler;
 import org.springframework.integration.file.support.FileExistsMode;
 import org.springframework.messaging.MessageChannel;
@@ -14,6 +16,7 @@ import ru.achernyavskiy0n.springintegrationexample.transfromer.StringToJsonTrans
 import ru.achernyavskiy0n.springintegrationexample.utils.annotations.ConfigurationIntegrationLayer;
 
 import java.io.File;
+import java.util.Objects;
 
 /**
  * 07.03.2021
@@ -21,50 +24,44 @@ import java.io.File;
  * @author a.chernyavskiy0n
  */
 @ConfigurationIntegrationLayer
+@RequiredArgsConstructor
 public class WriteJsonFlowConfiguration {
 
-    public static final String OUTPUT_DIR_1 = "the_dest1_dir";
-    public static final String OUTPUT_DIR_2 = "the_dest2_dir";
+    private static final String OUTPUT_DIR_1 = "the_dest1_dir";
 
     @Autowired
-    StringToJsonTransformer stringToJsonTransformer;
+    @Qualifier("stringToJsonTransformer")
+    protected StringToJsonTransformer stringToJsonTransformer;
 
     @Autowired
     @Qualifier("writeJsonFlow")
-    IntegrationFlow writeJsonFlow;
+    protected IntegrationFlow writeJsonFlow;
 
     @Bean
-    IntegrationFlow writeJsonFlow() {
-        return f -> f
+    protected IntegrationFlow writeJsonFlow() {
+        return IntegrationFlows.from("jsonWriteChannel")
                 .transform(stringToJsonTransformer::convert)
-                .log("end of converting to JSON and start writing JSON on disk")
-                .log("start first directory output")
-                .gateway(outPutChannel)
-                .log("finish first directory output")
-                .gateway(outPutChannel)
-                .log("finish second directory output and finish flow")
-                .bridge();
-
+                .log("end of converting to JSON and start wrtite down file on disk")
+                .gateway("writeJsonChannel")
+                .log("finish writing flow")
+                .get();
     }
 
     @Bean
-    public MessageChannel outPutChannel() {return new DirectChannel(); }
+    protected MessageChannel writeJsonChannel() {
+        return new DirectChannel();
+    }
 
-    @Autowired @Qualifier("outPutChannel") MessageChannel outPutChannel;
 
     @Bean
-    @ServiceActivator(inputChannel = "outPutChannel")
-    public MessageHandler firstFileOutPutMessageHandler() {
+    @ServiceActivator(inputChannel = "writeJsonChannel")
+    protected MessageHandler writeJsonFileMessageHandler() {
         FileWritingMessageHandler handler = new FileWritingMessageHandler(new File(OUTPUT_DIR_1));
-        handler.setFileExistsMode(FileExistsMode.REPLACE);
-        handler.setExpectReply(false);
-        return handler;
-    }
-
-    @Bean
-    @ServiceActivator(inputChannel = "outPutChannel")
-    public MessageHandler secondFileOutPutMessageHandler() {
-        FileWritingMessageHandler handler = new FileWritingMessageHandler(new File(OUTPUT_DIR_2));
+        handler.setFileNameGenerator(message -> {
+            Object obj = message.getHeaders().get("file_name");
+            String str = ((String) Objects.requireNonNull(obj)).split(".xml")[0];
+            return str.concat(".json");
+        });
         handler.setFileExistsMode(FileExistsMode.REPLACE);
         handler.setExpectReply(false);
         return handler;

@@ -20,6 +20,7 @@
         <ibm.mq.version>2.0.0</ibm.mq.version>
         <jaxb.version>2.3.1</jaxb.version>
         <javax.jaxb.api.version>2.4.0-b180830.0359</javax.jaxb.api.version>
+        <jackson.version>2.11.3</jackson.version>
     </properties>
 
     <dependencies>
@@ -42,7 +43,19 @@
         <!-- add Jackson for JSON processing -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson.version}</version>
+            <scope>compile</scope>
         </dependency>
 
         <!-- add MQ JMS Spring Boot starter for integration-->
@@ -57,7 +70,7 @@
             <version>${spring.integration.version}</version>
         </dependency>
 
-<!--        JAXB-->
+        <!--        JAXB-->
         <dependency>
             <groupId>jakarta.xml.bind</groupId>
             <artifactId>jakarta.xml.bind-api</artifactId>

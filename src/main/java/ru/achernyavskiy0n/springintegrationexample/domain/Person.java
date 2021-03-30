@@ -1,5 +1,8 @@
 package ru.achernyavskiy0n.springintegrationexample.domain;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.*;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -14,12 +17,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Getter
 @Setter
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(force = true, access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString
+@JsonRootName(value = "person")
 public class Person {
 
-    @XmlElement(name = "firstName")
-    String firstName;
-    @XmlElement(name = "lastName")
-    String lastName;
+    @XmlElement private final String firstName;
+    @XmlElement private final String lastName;
 }
